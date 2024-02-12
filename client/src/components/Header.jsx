@@ -1,5 +1,5 @@
 import { Navbar, Dropdown, Avatar } from 'flowbite-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from 'flowbite-react';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,6 +8,7 @@ import { signoutSuccess } from '../redux/user/userSlice';
 import { useState, useEffect } from 'react';
 
 export default function Header() {
+    const path = useLocation().pathname;
     const { theme } = useSelector(state => state.theme);
     const { currentUser } = useSelector(state => state.user);
     const dispatch = useDispatch();
@@ -38,11 +39,38 @@ export default function Header() {
                             <span className='block text-sm'>@{currentUser.username}</span>
                             <span className='block text-sm font-medium truncate'>{currentUser.email}</span>
                         </Dropdown.Header>
-                        
+                        <Link to={'/dashboard?tab=profile'}>
+                            <Dropdown.Item>Profile</Dropdown.Item>
+                        </Link>
+                        <Dropdown.Divider />
+                        <Dropdown.Item>Log Out</Dropdown.Item>
                     </Dropdown>
                 ):(
-                <Link></Link>) }
+                <Link to='/log-in'>
+                    <Button>
+                        Log In
+                    </Button>
+                </Link>
+                ) }
+                <Navbar.Toggle />
             </div>
+            <Navbar.Collapse>
+                <Navbar.Link active={path === '/'} as={'div'}>
+                    <Link to='/'>
+                        Home
+                    </Link>
+                </Navbar.Link>
+                <Navbar.Link active={path === '/album'} as={'div'}>
+                    <Link to='/album'>
+                        Album
+                    </Link>
+                </Navbar.Link>
+                <Navbar.Link active={path === '/photo'} as={'div'}>
+                    <Link to='/photo'>
+                        Photos
+                    </Link>
+                </Navbar.Link>
+            </Navbar.Collapse>
         </Navbar>
     );
 }
