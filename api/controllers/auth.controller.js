@@ -4,15 +4,15 @@ import { errorHandler } from '../utilis/error.js';
 import jwt from 'jsonwebtoken';
 
 export const signup = async (res, req, next) => {
-    const { name, username, email, password } = req.body;
+    console.log(req.body);
+    const { username, email, password } = req.body;
 
-    if (!name || !username || !email || !password || name === '' || username === '' || email === '' || password === '') {
+    if (!username || !email || !password || username === '' || email === '' || password === '') {
         next(errorHandler(400, 'All fields are required!'));
     }
     const hashPassword = bcryptjs.hashSync(password, 10);
 
     const newUser = new User({
-        name,
         username,
         email,
         password: hashPassword,
@@ -24,4 +24,32 @@ export const signup = async (res, req, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
+
+export const login = async (req, res, next) => {
+    const { email, password } = req.body;
+
+    if (!email || !password || email === '' || password === '') {
+        next(errorHandler(400, 'All fields are required'));
+    }
+
+    try {
+        const validUser = await User.findone({ email });
+        if (!validUser) {
+            return next(errorHandler(404, 'Invalid credentials'));
+        }
+        const validPass = bcryptjs.compareSync(password, validUser.password);
+        if (!validPass) {
+            return next(errorHandler(404, 'Invalid Credentials'));
+        }
+        const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+
+        const { password, ...rest } = validUser._doc;
+
+        res.status(200).cookie('access_token', token, {
+            httpOnly: true,
+        }).json(rest);
+    } catch (error) {
+        next(error);
+    }
+};
