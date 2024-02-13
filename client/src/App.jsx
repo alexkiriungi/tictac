@@ -6,6 +6,7 @@ import SignUp from "./pages/SignUp";
 import Photo from './pages/Photo';
 import Profile from './pages/Profile';
 import Header from './components/Header';
+import FooterComp from './components/Footer';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path='/photo' element={<Photo />} />
           <Route path='/profile' element={<Profile />} />
       </Routes>
+      <FooterComp />
     </BrowserRouter>
   );
 }
