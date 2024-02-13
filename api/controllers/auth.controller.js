@@ -3,10 +3,12 @@ import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utilis/error.js';
 import jwt from 'jsonwebtoken';
 
-export const signup = async (res, req, next) => {
-    console.log(req.body);
-    const { username, email, password } = req.body;
+export const test = (req, res) => {
+    res.json({message: 'API is working'});
+}
 
+export const signup = async (req, res, next) => {
+    const { username, email, password } = req.body;
     if (!username || !email || !password || username === '' || email === '' || password === '') {
         next(errorHandler(400, 'All fields are required!'));
     }
@@ -34,7 +36,7 @@ export const login = async (req, res, next) => {
     }
 
     try {
-        const validUser = await User.findone({ email });
+        const validUser = await User.findOne({ email });
         if (!validUser) {
             return next(errorHandler(404, 'Invalid credentials'));
         }
@@ -44,7 +46,7 @@ export const login = async (req, res, next) => {
         }
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
 
-        const { password, ...rest } = validUser._doc;
+        const { password: pass, ...rest } = validUser._doc;
 
         res.status(200).cookie('access_token', token, {
             httpOnly: true,
