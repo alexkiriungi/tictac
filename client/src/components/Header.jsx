@@ -47,7 +47,7 @@ export default function Header() {
                     </Dropdown>
                 ):(
                 <Link to='/log-in'>
-                    <Button gradientDuoTone='blueToPurple' outline>
+                    <Button gradientDuoTone='purpleToBlue' outline>
                         Log In
                     </Button>
                 </Link>
