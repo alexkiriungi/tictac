@@ -4,6 +4,6 @@ import { signout, updateUser, getUsers } from '../controllers/user.controller.js
 
 const router = express.Router();
 
-router.put('/update/userId', verifyToken, updateUser);
+router.put('/update/:userId', verifyToken, updateUser);
 router.post('/signout', signout);
 router.get('/getusers', verifyToken, getUsers);

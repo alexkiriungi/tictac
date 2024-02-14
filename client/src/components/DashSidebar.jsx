@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signoutSuccess } from '../redux/user/userSlice';
 import { BiPhotoAlbum } from 'react-icons/bi';
 import { HiUser, HiArrowSmRight, HiPhotograph } from 'react-icons/hi';
+import { FaUserFriends } from 'react-icons/fa';
 
 export default function DashSidebar() {
     const location = useLocation();
@@ -39,7 +40,7 @@ export default function DashSidebar() {
             <Sidebar.ItemGroup className='flex flex-col gap-1'>
                 {
                     currentUser && (
-                        <>
+                        <>  
                             <Link to='/dashboard?tab=profile'>
                             <Sidebar.Item
                             active={tab === 'profile'}
@@ -49,6 +50,16 @@ export default function DashSidebar() {
                             as='div'
                             >
                                 Profile
+                            </Sidebar.Item>
+                            </Link>
+
+                            <Link to='/dashboard?tab=users'>
+                            <Sidebar.Item
+                            active={tab === 'users'}
+                            icon={FaUserFriends}
+                            as='div'
+                            >
+                                Users
                             </Sidebar.Item>
                             </Link>
                         
