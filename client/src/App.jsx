@@ -7,6 +7,8 @@ import Photo from './pages/Photo';
 import Profile from './pages/Profile';
 import Header from './components/Header';
 import FooterComp from './components/Footer';
+import PrivateRoute from './components/PrivateRoute';
+import Dashboard from './pages/Dashboard';
 
 export default function App() {
   return (
@@ -17,6 +19,9 @@ export default function App() {
           <Route path='/album' element={<Album />} />
           <Route path='/log-in' element={<Login />} />
           <Route path='/sign-up' element={<SignUp /> } />
+          <Route  element={<PrivateRoute /> } >
+            <Route path='/dashboard' element={<Dashboard /> } />
+          </Route>
           <Route path='/photo' element={<Photo />} />
           <Route path='/profile' element={<Profile />} />
       </Routes>
