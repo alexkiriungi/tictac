@@ -39,7 +39,7 @@ const userSlice = createSlice({
         },
         updateFail: (state, action) => {
             state.loading = false;
-            state.error = error;
+            state.error = action.payload;
         },
     },
 });

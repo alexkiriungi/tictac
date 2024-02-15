@@ -2,27 +2,27 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Button, Spinner, TextInput, Label } from 'flowbite-react';
 import OAuth from '../components/OAuth';
+import { signInStart, signInSuccess, signInFailure} from '../redux/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Login() {
   const [ formData, setFormData ] = useState({});
-  const [ errorMessage, setErrorMessage ] = useState(null);
-  const [ loading, setLoading ] = useState(false);
   const navigate = useNavigate();
+  const { loading, error:errorMessage } = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    setErrorMessage(null);
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      return setErrorMessage('Please fill out all fields');
+      return dispatch(signInFailure('Please fill out all fields'));
     }
 
     try {
-      setLoading(true);
-      setErrorMessage(null);
+      dispatch(signInStart());
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -30,23 +30,22 @@ export default function Login() {
       });
       const data = await res.json();
       if (data.success === false) {
-        setLoading(false);
-        return setErrorMessage(data.message);
+        dispatch(signInFailure(data.message));
       }
-      setLoading(false);
+      
       if (res.ok) {
+        dispatch(signInSuccess(data));
         navigate('/');
       }
     } catch (error) {
-      setErrorMessage(error.message);
-      setLoading(false);
+      dispatch(signInFailure(error.message));
     }
   };
 
   return (
     <div className='min-h-screen mt-20'>
       <div className='flex p-3 flex-col max-w-3xl mx-auto md:flex-row md:items-center gap-6 '>
-        {/* Left side of the sign up page */}
+        {/* Left side of the Login page */}
        <div className='flex-1' >
         <Link to='/' className='font-bold dark:text-white text-5xl'>
             <span className='px-2 py-1 bg-gradient-to-r from-pink-500
@@ -90,7 +89,7 @@ export default function Login() {
           </form>
           <div className='flex gap-2 text-sm mt-3'>
             <span>Don't have an account?</span>
-            <Link to='/log-in' className='text-blue-400'>
+            <Link to='/sign-up' className='text-blue-400'>
               Sign Up
             </Link>
           </div>

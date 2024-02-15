@@ -28,6 +28,7 @@ export default function DashProfile() {
     const [ formData, setFormData ] = useState({});
     const filePickerRef = useRef();
     const handleImageChange = (e) => {
+        setImageFileUploadError(null);
         const file = e.target.files[0];
         if (file) {
             setImageFile(file);
@@ -86,7 +87,7 @@ export default function DashProfile() {
             return;
         }
         try {
-            dispatch(updateStart);
+            dispatch(updateStart());
             const res = await fetch(`/api/user/update/${currentUser._id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json'},
@@ -98,29 +99,13 @@ export default function DashProfile() {
                 setUpdateUserError(data.message);
             } 
             if (res.ok) {
+                setImageFileUploadProgress(false);
                 dispatch(updateSuccess(data));
                 setUpdateUserSuccess('Update successful!');
-
             }
         } catch (error) {
             dispatch(updateFail(error.message));
             setUpdateUserError(data.message);
-        }
-    };
-
-    const handleSignOut = async () => {
-        try {
-            const res = await fetch('/api/user/signout', {
-                method: 'POST'
-            });
-            const data = await res.json();
-            if (!res.ok) {
-                console.log(error.message)
-            } else {
-                dispatch(signoutSuccess);
-            }
-        } catch (error) {
-            console.log(error);
         }
     };
 

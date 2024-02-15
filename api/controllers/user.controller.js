@@ -1,5 +1,5 @@
-import User from "../models/user.model";
-import { errorHandler } from "../utilis/error";
+import User from "../models/user.model.js";
+import { errorHandler } from "../utilis/error.js";
 import bcryptjs from 'bcryptjs';
 
 export const updateUser = async (req, res, next) => {
@@ -22,7 +22,7 @@ export const updateUser = async (req, res, next) => {
         if (req.body.username !== req.body.username.toLowerCase()) {
             return next(errorHandler(400, 'Username must be in lowercase'));
         }
-        if (req.body.username.match(/^[a-zA-z0-9]/)) {
+        if (req.body.username.match(/^[a-zA-z0-9]$/)) {
             return next(errorHandler(400, 'Username can only contain letters and numbers'));
         }
     }

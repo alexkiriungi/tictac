@@ -7,3 +7,5 @@ const router = express.Router();
 router.put('/update/:userId', verifyToken, updateUser);
 router.post('/signout', signout);
 router.get('/getusers', verifyToken, getUsers);
+
+export default router;
