@@ -1,11 +1,10 @@
 import { useSelector } from 'react-redux';
-import { Alert, Button, Modal, TextInput } from 'flowbite-react';
+import { Alert, Button, TextInput } from 'flowbite-react';
 import { app } from '../firebase';
 import {
     updateStart,
     updateSuccess,
     updateFail,
-    signoutSuccess,
 } from '../redux/user/userSlice';
 import { useEffect, useRef, useState } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';

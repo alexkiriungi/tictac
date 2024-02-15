@@ -51,9 +51,6 @@ export const signout = (req, res, next) => {
 };
 
 export const getUsers = async (req, res, next) => {
-    if (!req.user.params) {
-        return next(errorHandler(403, 'Unauthorized access'));
-    }
     try {
         const startIndex = parseInt(req.query.startIndex) || 0;
         const limit = parseInt(req.query.limit) || 9;
