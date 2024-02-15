@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import authRoutes from './routes/auth.route.js';
 import cookieParser from 'cookie-parser';
 import userRoutes from './routes/user.route.js';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.listen(port, () => {
     console.log(`Server is running on ${port}`);
 });
 
+app.use(cors());
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 
