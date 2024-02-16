@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import authRoutes from './routes/auth.route.js';
 import cookieParser from 'cookie-parser';
 import userRoutes from './routes/user.route.js';
+import albumRoutes from './routes/album.route.js';
 import cors from 'cors';
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.listen(port, () => {
 app.use(cors());
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/album', albumRoutes);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
