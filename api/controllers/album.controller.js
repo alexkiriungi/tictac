@@ -7,13 +7,11 @@ export const createAlbum = async (req, res, next) => {
     //     return next(errorHandler(400, 'Please provide a title'));
     // }
     try {
-        const { title, image } = req.body;
-        const slug = req.body.title.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
+        // const slug = req.body.title.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
         const newAlbum = new Album({
             userId: req.user.id,
-            slug,
-            title,
-            image,
+            title: req.body,
+            image: req.file,
         });
         const savedAlbum = await newAlbum.save();
         res.status(201).json(savedAlbum);

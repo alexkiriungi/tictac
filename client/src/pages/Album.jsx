@@ -36,8 +36,8 @@ export default function Album() {
     try {
       const res = await fetch('/api/album/create', {
         method: 'POST',
-        headers: {'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryBODBNK9vWWeDNOP1'},
-        body: JSON.stringify(formData)
+        // headers: {'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryBODBNK9vWWeDNOP1'},
+        body: JSON.Stringify(formData),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -46,9 +46,9 @@ export default function Album() {
       } else {
         setPublishError(null);
         setPublishSuccess('Huraay! Album publish!')
-        navigate(`/album/${data.slug}`);
+        // navigate(`/album/${data.slug}`);
       }
-      console.log(formData.title);
+      console.log(formData);
     } catch (error) {
       setPublishError('Oops! Something went wrong');
     }
@@ -97,7 +97,7 @@ export default function Album() {
           </Alert>
         }
         {
-          publishSuccess && <Alert color='failure' className="mt-5">
+          publishSuccess && <Alert color='success' className="mt-5">
             {publishSuccess}
           </Alert>
         }

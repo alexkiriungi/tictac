@@ -15,10 +15,11 @@ const storage = multer.diskStorage({
         cb(errorHandler(400, 'Error! Please try again!'), Date.now() + path.extname(file.originalname));
     }
 });
-const upload = multer({ storage: storage});
-const uploadFiles = upload.fields([{ name: 'title', maxCount: 1 }, { name: 'image', maxCount: 3}])
 
-router.post('/create', verifyToken, uploadFiles, createAlbum);
+const upload = multer({ storage: storage});
+
+
+router.post('/create', verifyToken, upload.single('image'), createAlbum);
 router.get('/getalbums', getAlbums);
 
 export default router;

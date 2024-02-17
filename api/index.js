@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import userRoutes from './routes/user.route.js';
 import albumRoutes from './routes/album.route.js';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(bodyParser.json({ limit: '20mb', extended: true }));
 
 const port = process.env.PORT || 3001;
 
