@@ -16,8 +16,9 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage});
+const uploadFiles = upload.fields([{ name: 'title', maxCount: 1 }, { name: 'image', maxCount: 3}])
 
-router.post('/create', verifyToken, upload.single('image'), createAlbum);
+router.post('/create', verifyToken, uploadFiles, createAlbum);
 router.get('/getalbums', getAlbums);
 
 export default router;

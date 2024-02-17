@@ -3,13 +3,15 @@ import { errorHandler } from '../utilis/error.js';
 
 
 export const createAlbum = async (req, res, next) => {
-    if (!req.body.title || !req.body.image) {
-        return next(errorHandler(400, 'Please provide all required fields!'));
-    }
+    // if (!req.body.title) {
+    //     return next(errorHandler(400, 'Please provide a title'));
+    // }
     try {
         const { title, image } = req.body;
+        const slug = req.body.title.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
         const newAlbum = new Album({
             userId: req.user.id,
+            slug,
             title,
             image,
         });
@@ -20,7 +22,7 @@ export const createAlbum = async (req, res, next) => {
     }
 };
 
-export default getAlbums = async (req, res, next) => {
+export const getAlbums = async (req, res, next) => {
     try {
         const startIndex = parseInt(req.query.startIndex) || 0;
         const limit = parseInt(req.query.limit) || 9;

@@ -11,6 +11,7 @@ export default function Album() {
   const [ formData, setFormData ] = useState({});
   const [ imageUploadError, setImageUploadError ] = useState(null);
   const [ publishError, setPublishError ] = useState(null);
+  const [ publishSuccess, setPublishSuccess ] = useState(null);
 
   const handleImagUpload = async (e) => {
     try {
@@ -23,18 +24,46 @@ export default function Album() {
     } catch (error) {
       console.log(error.message);
     }
-    console.log(formData);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData) {
+      setPublishSuccess(null);
+      setPublishError('Error! Please try again!');
+      return;
+    }
+    try {
+      const res = await fetch('/api/album/create', {
+        method: 'POST',
+        headers: {'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryBODBNK9vWWeDNOP1'},
+        body: JSON.stringify(formData)
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setPublishSuccess(null);
+        setPublishError(data.message);
+      } else {
+        setPublishError(null);
+        setPublishSuccess('Huraay! Album publish!')
+        navigate(`/album/${data.slug}`);
+      }
+      console.log(formData.title);
+    } catch (error) {
+      setPublishError('Oops! Something went wrong');
+    }
   };
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>
       <h1 className="text-center text-3xl my-7 font-bold">Create an Album</h1>
-      <form className="flex flex-col gap-5">
+      <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
         <div className="">
           <TextInput
           type="text"
           placeholder="Title"
           required
           id='title'
+          name='title'
           className="flex-1"
           onChange={(e) => setFormData({ ...formData, title: e.target.value})} />
         </div>
@@ -65,6 +94,11 @@ export default function Album() {
         {
           publishError && <Alert color='failure' className="mt-5">
             {publishError}
+          </Alert>
+        }
+        {
+          publishSuccess && <Alert color='failure' className="mt-5">
+            {publishSuccess}
           </Alert>
         }
       </form>
