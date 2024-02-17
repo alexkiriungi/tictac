@@ -8,12 +8,13 @@ const albumSchema = new mongoose.Schema(
         },
         title: {
             type: String,
+            required: true,
         },
         image: {
             type: String,
             default: "",
         },
-    }, { timestamps: true }
+    }, { timestamps: true },
 );
 
 const Album = mongoose.model('Album', albumSchema);

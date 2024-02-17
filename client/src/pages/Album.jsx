@@ -36,8 +36,8 @@ export default function Album() {
     try {
       const res = await fetch('/api/album/create', {
         method: 'POST',
-        // headers: {'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryBODBNK9vWWeDNOP1'},
-        body: JSON.Stringify(formData),
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(formData),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -46,17 +46,18 @@ export default function Album() {
       } else {
         setPublishError(null);
         setPublishSuccess('Huraay! Album publish!')
-        // navigate(`/album/${data.slug}`);
+        navigate(`/album/${data.slug}`);
       }
       console.log(formData);
     } catch (error) {
+      console.log(error);
       setPublishError('Oops! Something went wrong');
     }
   };
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>
       <h1 className="text-center text-3xl my-7 font-bold">Create an Album</h1>
-      <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-5" onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="">
           <TextInput
           type="text"
