@@ -63,9 +63,9 @@ export default function DashSidebar() {
                             </Sidebar.Item>
                             </Link>
                         
-                            <Link to='/dashboard?tab=album'>
+                            <Link to='/dashboard?tab=albums'>
                             <Sidebar.Item
-                            active={tab === 'album'}
+                            active={tab === 'albums'}
                             icon={BiPhotoAlbum}
                             as='div'
                             >

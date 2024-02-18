@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 export default function DashAlbums() {
   const { currentUser } = useSelector((state) => state.user);
-  const [ userAlbums, setUserAlbums ] = useState({});
+  const [ userAlbums, setUserAlbums ] = useState([]);
   const [ showMore, setShowMore ] = useState(true);
   
   useEffect(() => {
@@ -88,9 +88,8 @@ export default function DashAlbums() {
         </>
       ) : (
         <div className='flex justify-center items-center'>
-          <p>Fetching Albums... Please wait:)</p>
+          <p>Fetching Albums... Please wait:</p>
         </div>
-        
       )}
     </div>
   );

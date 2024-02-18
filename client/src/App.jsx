@@ -4,7 +4,7 @@ import Album from './pages/Album';
 import Login from './pages/Login';
 import SignUp from "./pages/SignUp";
 import Photo from './pages/Photo';
-import Profile from './pages/Profile';
+import PublishPage from './pages/PublishPage';
 import Header from './components/Header';
 import FooterComp from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
@@ -23,7 +23,7 @@ export default function App() {
             <Route path='/dashboard' element={<Dashboard /> } />
           </Route>
           <Route path='/photo' element={<Photo />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path='/publishpage' element={<PublishPage />} />
       </Routes>
       <FooterComp />
     </BrowserRouter>

@@ -31,8 +31,7 @@ export const getalbums = async (req, res, next) => {
             ...(req.query.title && { title: req.query.title }),
             ...(req.query.image && { image: req.query.image }),
             ...(req.query.albumId && { _id: req.query.albumId }),
-        })
-        .sort({ updatedAt: sortDirection}).skip(startIndex).limit(limit);
+        }).sort({ updatedAt: sortDirection}).skip(startIndex).limit(limit);
         const totalAlbums = await Album.countDocuments();
 
         const now = new Date();
@@ -50,6 +49,7 @@ export const getalbums = async (req, res, next) => {
             totalAlbums,
             lastMontAlbums
         });
+        console.log(albums);
     } catch (error) {
     next(error);
 }
