@@ -21,12 +21,17 @@ export const createAlbum = async (req, res, next) => {
     }
 };
 
-export const getAlbums = async (req, res, next) => {
+export const getalbums = async (req, res, next) => {
     try {
         const startIndex = parseInt(req.query.startIndex) || 0;
         const limit = parseInt(req.query.limit) || 9;
         const sortDirection = req.query.order === 'asc' ? 1 : -1;
-        const albums = await Album.find()
+        const albums = await Album.find({
+            ...(req.query.userId && { userId: req.query.userId } ),
+            ...(req.query.title && { title: req.query.title }),
+            ...(req.query.image && { image: req.query.image }),
+            ...(req.query.albumId && { _id: req.query.albumId }),
+        })
         .sort({ updatedAt: sortDirection}).skip(startIndex).limit(limit);
         const totalAlbums = await Album.countDocuments();
 

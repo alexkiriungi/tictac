@@ -2,7 +2,7 @@ import express from 'express';
 import { errorHandler } from '../utilis/error.js';
 import { verifyToken } from '../utilis/verifyUser.js';
 import multer from 'multer';
-import { createAlbum, getAlbums } from '../controllers/album.controller.js';
+import { createAlbum, getalbums } from '../controllers/album.controller.js';
 import path from 'path';
 
 const router = express.Router();
@@ -20,6 +20,6 @@ const upload = multer({ storage});
 
 
 router.post('/create', verifyToken, upload.single('image'), createAlbum);
-router.get('/getalbums', getAlbums);
+router.get('/getalbums', getalbums);
 
 export default router;

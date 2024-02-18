@@ -1,31 +1,32 @@
-import { Table, Modal, Button } from 'flowbite-react';
+import { Table } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 export default function DashAlbums() {
   const { currentUser } = useSelector((state) => state.user);
-  const [ userAlbums, setUserAlbums ] = useState([]);
+  const [ userAlbums, setUserAlbums ] = useState({});
   const [ showMore, setShowMore ] = useState(true);
   
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchAlbums = async () => {
       try {
         const res = await fetch(`/api/album/getalbums?userId=${currentUser._id}`);
         const data = await res.json();
         if (res.ok) {
-          setUserPosts(data.albums);
+          setUserAlbums(data.albums);
           if (data.albums.length < 9) {
             setShowMore(false);
           }
+        } else {
+          console.log(data.message)
         }
+        console.log(data)
       } catch (error) {
         console.log(error.message)
       }
     };
-    if (currentUser) {
-      fetchPosts();
-    }
+    fetchAlbums();  
   }, [currentUser._id]);
 
   const handleShowMore = async () => {
@@ -63,7 +64,15 @@ export default function DashAlbums() {
                     { new Date(album.updatedAt).toLocaleDateString() }
                   </Table.Cell>    
                   <Table.Cell>
-                    <Link className='font-medium text-gray-900 dark:text-white' to={`/post/${album.slug}`}>{album.title}</Link>
+                    <Link className='font-medium text-gray-900 dark:text-white' to={`/album/${album.slug}`}>{album.title}</Link>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Link to={`/album/${album.slug}`}>
+                      <img 
+                        src={album.image}
+                        alt={album.title} 
+                        className='w-20 h-10 object-cover bg-gray-500 rounded' />
+                    </Link>
                   </Table.Cell>
                 </Table.Row>
               </Table.Body>
@@ -78,7 +87,10 @@ export default function DashAlbums() {
           }
         </>
       ) : (
-        <p>No available Albums at the moment!</p>
+        <div className='flex justify-center items-center'>
+          <p>Fetching Albums... Please wait:)</p>
+        </div>
+        
       )}
     </div>
   );
