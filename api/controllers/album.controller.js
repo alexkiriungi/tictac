@@ -3,9 +3,9 @@ import { errorHandler } from '../utilis/error.js';
 
 
 export const createAlbum = async (req, res, next) => {
-    // if (!req.body.title) {
-    //     return next(errorHandler(400, 'Please provide a title'));
-    // }
+    if (!req.body.title || !req.body.file) {
+        return next(errorHandler(400, 'An error occurred... Please fill all required fields'));
+    }
     try {
         const slug = req.body.title.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
         const newAlbum = new Album({

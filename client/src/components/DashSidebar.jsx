@@ -69,17 +69,17 @@ export default function DashSidebar() {
                             icon={BiPhotoAlbum}
                             as='div'
                             >
-                                Album
+                                Albums
                             </Sidebar.Item>
                             </Link>
                         
-                            <Link to='/dashboard?tab=photo'>
+                            <Link to='/dashboard?tab=photos'>
                             <Sidebar.Item
-                            active={tab === 'photo'}
+                            active={tab === 'photos'}
                             icon={HiPhotograph}
                             as='div'
                             >
-                                Photo
+                                Photos
                             </Sidebar.Item>
                             </Link>
                         </>

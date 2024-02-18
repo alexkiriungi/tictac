@@ -1,4 +1,4 @@
-import { Table } from 'flowbite-react';
+import { Table, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ export default function DashAlbums() {
   const { currentUser } = useSelector((state) => state.user);
   const [ userAlbums, setUserAlbums ] = useState([]);
   const [ showMore, setShowMore ] = useState(true);
+  const [ imageFileUrl, setImageFileUrl ] = useState('');
   
   useEffect(() => {
     const fetchAlbums = async () => {
@@ -15,13 +16,18 @@ export default function DashAlbums() {
         const data = await res.json();
         if (res.ok) {
           setUserAlbums(data.albums);
+          for (let i=0; i < albums.length; i++) {
+            const imageUrl = URL.createObjectURL(album[i].blob());
+            setImageFileUrl(imageUrl);
+          }
           if (data.albums.length < 9) {
             setShowMore(false);
           }
         } else {
           console.log(data.message)
         }
-        console.log(data)
+        // console.log(data);
+        console.log(imageUrl);
       } catch (error) {
         console.log(error.message)
       }
@@ -69,7 +75,7 @@ export default function DashAlbums() {
                   <Table.Cell>
                     <Link to={`/album/${album.slug}`}>
                       <img 
-                        src={album.image}
+                        src={imageFileUrl}
                         alt={album.title} 
                         className='w-20 h-10 object-cover bg-gray-500 rounded' />
                     </Link>
@@ -87,8 +93,9 @@ export default function DashAlbums() {
           }
         </>
       ) : (
-        <div className='flex justify-center items-center'>
-          <p>Fetching Albums... Please wait:</p>
+        <div className='flex justify-center items-center flex-wrap gap-2'>
+          <Spinner color='info' />
+          <p className='italic'>Fetching Albums, Please wait...</p>
         </div>
       )}
     </div>

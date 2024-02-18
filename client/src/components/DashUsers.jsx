@@ -85,7 +85,10 @@ export default function DashPosts() {
 
         </>
       ) : (
-        <p>No users available at the moment!</p>
+        <div className='flex justify-center items-center flex-wrap gap-2'>
+          <Spinner color='info' />
+          <p className='italic'>Fetching Users, Please wait...</p>
+        </div>
       )} 
     </div>
   );
