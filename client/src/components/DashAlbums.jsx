@@ -1,4 +1,4 @@
-import { Table, Spinner } from 'flowbite-react';
+import { Table, Spinner, Tooltip } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -6,28 +6,35 @@ import { Link } from 'react-router-dom';
 export default function DashAlbums() {
   const { currentUser } = useSelector((state) => state.user);
   const [ userAlbums, setUserAlbums ] = useState([]);
+  const [ totalAlbums, setTotalAlbums ] = useState('');
   const [ showMore, setShowMore ] = useState(true);
-  const [ imageFileUrl, setImageFileUrl ] = useState('');
+  const [ imageFileUrl, setImageFileUrl ] = useState([]);
   
   useEffect(() => {
     const fetchAlbums = async () => {
       try {
         const res = await fetch(`/api/album/getalbums?userId=${currentUser._id}`);
         const data = await res.json();
+        // const imageFile = await res.blob().then((data) => { 
+        //   const url = URL.createObjectURL(data);
+        //   imageFile.src = url;
+        //   console.log(url);
+        // });
+        {/* Fix error for converting blob url to base 64 string */}
+        
+        // setImageFileUrl(imageFile);
         if (res.ok) {
           setUserAlbums(data.albums);
-          for (let i=0; i < albums.length; i++) {
-            const imageUrl = URL.createObjectURL(album[i].blob());
-            setImageFileUrl(imageUrl);
-          }
+          setTotalAlbums(data.totalAlbums)
+          console.log(userAlbums);
+          
           if (data.albums.length < 9) {
             setShowMore(false);
           }
         } else {
           console.log(data.message)
         }
-        // console.log(data);
-        console.log(imageUrl);
+       
       } catch (error) {
         console.log(error.message)
       }
@@ -57,33 +64,37 @@ export default function DashAlbums() {
       dark:scrollbar-thumb-500'>
       {currentUser && userAlbums.length > 0 ? (
         <>
-          <Table hoverable className='shadow-md'>
-            <Table.Head>
-              <Table.HeadCell>Date posted</Table.HeadCell>
-              <Table.HeadCell>Album title</Table.HeadCell>
-              <Table.HeadCell>Album image</Table.HeadCell>
-            </Table.Head>
-            {userAlbums.map((album) => (
-              <Table.Body className='divide-y' key={album._id}>
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                  <Table.Cell>
-                    { new Date(album.updatedAt).toLocaleDateString() }
-                  </Table.Cell>    
-                  <Table.Cell>
-                    <Link className='font-medium text-gray-900 dark:text-white' to={`/album/${album.slug}`}>{album.title}</Link>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Link to={`/album/${album.slug}`}>
-                      <img 
-                        src={imageFileUrl}
-                        alt={album.title} 
-                        className='w-20 h-10 object-cover bg-gray-500 rounded' />
-                    </Link>
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            ))}
-          </Table>
+          <Tooltip content={`Total Albums: ${totalAlbums}`}>
+            <Table hoverable className='shadow-md'>
+              <Table.Head>
+                <Table.HeadCell>Date posted</Table.HeadCell>
+                <Table.HeadCell>Album title</Table.HeadCell>
+                <Table.HeadCell>Album image</Table.HeadCell>
+              </Table.Head>
+              {userAlbums.map((album) => (
+                <Table.Body className='divide-y' key={album._id}>
+                  <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                    <Table.Cell>
+                      { new Date(album.updatedAt).toLocaleDateString() }
+                    </Table.Cell>    
+                    <Table.Cell>
+                      <Link className='font-medium text-gray-900 dark:text-white' to={`/album/${album.slug}`}>{album.title}</Link>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {album.image && (
+                        <Link to={`/album/${album.slug}`}>
+                        <img 
+                          src={album.image}
+                          alt={album.title} 
+                          className='w-20 h-10 object-cover bg-gray-500 rounded' />
+                      </Link>
+                      )}
+                    </Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              ))}
+            </Table>
+          </Tooltip>
           {
             showMore && (
               <button onClick={handleShowMore} className='w-full text-teal-500 self-center text-sm py-7' >
