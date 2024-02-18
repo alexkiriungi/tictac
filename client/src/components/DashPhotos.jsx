@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-export default function DashAlbums() {
+export default function DashPhotos() {
   const { currentUser } = useSelector((state) => state.user);
   const [ userAlbums, setUserAlbums ] = useState([]);
   const [ totalAlbums, setTotalAlbums ] = useState('');
@@ -25,7 +25,7 @@ export default function DashAlbums() {
         // setImageFileUrl(imageFile);
         if (res.ok) {
           setUserAlbums(data.albums);
-          setTotalAlbums(data.totalAlbums) 
+          setTotalAlbums(data.totalAlbums)
           if (data.albums.length < 9) {
             setShowMore(false);
           }
@@ -60,7 +60,7 @@ export default function DashAlbums() {
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar 
       scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 
       dark:scrollbar-thumb-500'>
-      {currentUser && userAlbums.length > 0 ? (
+      {currentUser && userAlbums.length < 0 ? (
         <>
           <Tooltip content={`Total Albums: ${totalAlbums}`}>
             <Table hoverable className='shadow-md'>
@@ -104,7 +104,7 @@ export default function DashAlbums() {
       ) : (
         <div className='flex justify-center items-center flex-wrap gap-2'>
           <Spinner color='info' />
-          <p className='italic'>Fetching Albums, Please wait...</p>
+          <p className='italic'>Fetching Photos, Please wait...</p>
         </div>
       )}
     </div>

@@ -1,8 +1,8 @@
-import { Table, Button } from 'flowbite-react';
+import { Table, Button, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-export default function DashPosts() {
+export default function DashUsers() {
   const { currentUser } = useSelector(state => state.user);
   const [ users, setUsers ] = useState([]);
   const [ showMore, setShowMore ] = useState(true);
