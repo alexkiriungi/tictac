@@ -52,7 +52,7 @@ export default function Login() {
             via-purple-500 to-indigo-500 rounded-lg text-white'>Tic</span>Tac
           </Link>
           <p className='mt-5 text-sm font-semibold'>
-            Aloha! Welcome Back to TicTac, where memories are cherished with a snap
+            Aloha! Welcome Back to TicTac, where sentiments meet creativity.
           </p>
        </div>
       
