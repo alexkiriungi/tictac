@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon api/index.js",
     "start": "node api/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": " jest"
   },
   "author": "",
   "license": "ISC",
@@ -23,5 +23,8 @@
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.0.3",
     "react-router": "^6.22.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.2"
   }
 }
