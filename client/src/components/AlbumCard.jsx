@@ -1,19 +1,50 @@
 import { Link } from "react-router-dom";
+import { Card } from 'flowbite-react';
 
-export default function AlbumCard({ post }) {
+export default function AlbumCard() {
   return (
-    <div className="group relative w-full h-[400px] overflow-hidden rounded-lg sm:w-[350px] border border-teal-500 hover:border-2 transition-all">
-        <Link to={`/album/${album.slug}`}>
-            <img 
-            src={album.image} 
-            alt="Album image" 
-            className="h-[260px] w-full object-cover group-hover:h-[200px] transition-all duration-300 z-20"/>
-        </Link>
-        <div className="p-3 flex flex-col gap-2">
-            <p className="text-lg font-semibold line-clamp-2">{album.title}</p>
-            <Link to={`/album/${album.slug}`} className="z-10 group-hover:bottom-0 absolute bottom-[-200px] left-0 right-0 border border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white transition-all duration-300 text-center py-2 rounded-md !rounded-tl-none m-2">
-                View Album
-            </Link>
+    <div className='flex flex-col gap-6'>
+        <h2 className='text-2xl font-semibold text-center'> Sample Cards</h2>
+        <div className='flex flex-wrap gap-4 justify-center p-2'>
+            <Card
+            className='max-w-sm'
+            imgAlt="#SportsBringsPeopleTogether"
+            imgSrc='./public/images/sports.jpg'
+            >
+                <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    Sports
+                </h5>
+                <p classNme="font-normal text-gray-700 dark:text-gray-400">
+                    The smell of cheers and the sound of sweet beer! A feeling of happiness over 
+                    a game with friends always hits differently! Try it somethime...
+                </p>
+            </Card>
+            <Card
+            className='max-w-sm'
+            imgAlt="#ThereIsAThinLineBetweenLoveAndHate"
+            imgSrc='./public/images/love.jpg'
+            >
+                <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    Love vs Hate 
+                </h5>
+                <p classNme="font-normal text-gray-700 dark:text-gray-400">
+                    There is a thin line between love and hate! Love is always conditional but hate
+                    is inevitable. Opposites of the same nature and word count!...
+                </p>
+            </Card>
+            <Card
+            className='max-w-sm'
+            imgAlt="#TomorrowIsNotPromisedDoItToday"
+            imgSrc='./public/images/time.jpg'
+            >
+                <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    Time 
+                </h5>
+                <p classNme="font-normal text-gray-700 dark:text-gray-400">
+                    Time is running out! What have you accomplished so far? If you died today would
+                     you feel fulfilled? If not, Do something about it!
+                </p>
+            </Card>
         </div>
     </div>
   );
