@@ -9,7 +9,7 @@ export default function AlbumCard() {
             <Card
             className='max-w-sm'
             imgAlt="#SportsBringsPeopleTogether"
-            imgSrc='./public/images/sports.jpg'
+            imgSrc='/images/sports.jpg'
             >
                 <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     Sports
@@ -22,7 +22,7 @@ export default function AlbumCard() {
             <Card
             className='max-w-sm'
             imgAlt="#ThereIsAThinLineBetweenLoveAndHate"
-            imgSrc='./public/images/love.jpg'
+            imgSrc='/images/love.jpg'
             >
                 <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     Love vs Hate 
@@ -35,7 +35,7 @@ export default function AlbumCard() {
             <Card
             className='max-w-sm'
             imgAlt="#TomorrowIsNotPromisedDoItToday"
-            imgSrc='./public/images/time.jpg'
+            imgSrc='/images/time.jpg'
             >
                 <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     Time 

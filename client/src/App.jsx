@@ -9,10 +9,12 @@ import Header from './components/Header';
 import FooterComp from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './pages/Dashboard';
+import ScrollTop from './components/ScrollTop';
 
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollTop />
       <Header />
       <Routes>
           <Route path='/' element={<Home />} />
