@@ -14,6 +14,9 @@ export default function Album() {
   const [ publishSuccess, setPublishSuccess ] = useState(null);
 
   const handleImagUpload = async (e) => {
+    if (!currentUser) {
+      navigate('/log-in');
+    }
     try {
       if (!file) {
         setImageUploadError('Please select an image');
@@ -28,6 +31,9 @@ export default function Album() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!currentUser) {
+      navigate('/log-in');
+    }
     if (!formData) {
       setPublishSuccess(null);
       setPublishError('Error! Please try again!');

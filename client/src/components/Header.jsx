@@ -5,13 +5,28 @@ import { FaMoon, FaSun } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../redux/theme/themeSlice';
 import { signoutSuccess } from '../redux/user/userSlice';
-import { useState, useEffect } from 'react';
+
 
 export default function Header() {
     const path = useLocation().pathname;
     const { theme } = useSelector(state => state.theme);
     const { currentUser } = useSelector(state => state.user);
     const dispatch = useDispatch();
+    const handleSignOut = async () => {
+        try {
+            const res = await fetch('/api/user/signout', {
+                method: 'POST'
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                console.log(error.message)
+            } else {
+                dispatch(signoutSuccess());
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <Navbar className='border-b-2 shadow:md'>
             <Link to='/' className='self-center whitespace-nowrap text-sm
@@ -43,7 +58,7 @@ export default function Header() {
                             <Dropdown.Item>Profile</Dropdown.Item>
                         </Link>
                         <Dropdown.Divider />
-                        <Dropdown.Item>Log Out</Dropdown.Item>
+                        <Dropdown.Item onClick={handleSignOut}>Log Out</Dropdown.Item>
                     </Dropdown>
                 ):(
                 <Link to='/log-in'>
@@ -55,21 +70,21 @@ export default function Header() {
                 <Navbar.Toggle />
             </div>
             <Navbar.Collapse>
-                <Navbar.Link active={path === '/'} as={'div'}>
-                    <Link to='/'>
+                <Link to='/'>
+                    <Navbar.Link active={path === '/'} as={'div'}>
                         Home
-                    </Link>
-                </Navbar.Link>
-                <Navbar.Link active={path === '/album'} as={'div'}>
-                    <Link to='/album'>
+                    </Navbar.Link>
+                </Link>
+                <Link to='/album'>
+                    <Navbar.Link active={path === '/album'} as={'div'}>
                         Album
-                    </Link>
-                </Navbar.Link>
-                <Navbar.Link active={path === '/photo'} as={'div'}>
-                    <Link to='/photo'>
+                    </Navbar.Link>
+                </Link>
+                <Link to='/photo'>
+                    <Navbar.Link active={path === '/photo'} as={'div'}>
                         Photos
-                    </Link>
-                </Navbar.Link>
+                    </Navbar.Link>
+                </Link>
             </Navbar.Collapse>
         </Navbar>
     );

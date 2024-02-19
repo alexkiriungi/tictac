@@ -28,6 +28,7 @@ export const getalbums = async (req, res, next) => {
         const sortDirection = req.query.order === 'asc' ? 1 : -1;
         const albums = await Album.find({
             ...(req.query.userId && { userId: req.query.userId } ),
+            ...(req.query.slug && { slug: req.query.slug}),
             ...(req.query.title && { title: req.query.title }),
             ...(req.query.image && { image: req.query.image }),
             ...(req.query.albumId && { _id: req.query.albumId }),
@@ -49,7 +50,6 @@ export const getalbums = async (req, res, next) => {
             totalAlbums,
             lastMontAlbums
         });
-        console.log(albums);
     } catch (error) {
     next(error);
 }

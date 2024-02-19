@@ -23,7 +23,7 @@ export default function App() {
             <Route path='/dashboard' element={<Dashboard /> } />
           </Route>
           <Route path='/photo' element={<Photo />} />
-          <Route path='/publishpage' element={<PublishPage />} />
+          <Route path='/publishpage/:albumSlug' element={<PublishPage />} />
       </Routes>
       <FooterComp />
     </BrowserRouter>
