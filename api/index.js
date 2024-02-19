@@ -7,6 +7,7 @@ import userRoutes from './routes/user.route.js';
 import albumRoutes from './routes/album.route.js';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import path from 'path';
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ app.use(cookieParser());
 app.use(bodyParser.json({ limit: '20mb', extended: true }));
 
 const port = process.env.PORT || 3001;
+
+const __dirname = path.resolve();
 
 mongoose.connect(process.env.MONGO).then(
     () => {
@@ -34,6 +37,12 @@ app.use(cors());
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/album', albumRoutes);
+
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
