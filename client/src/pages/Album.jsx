@@ -2,6 +2,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { TextInput, FileInput, Button, Alert } from "flowbite-react";
+import { app } from '../firebase';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 
 export default function Album() {
   const dispatch = useDispatch();
@@ -12,6 +14,7 @@ export default function Album() {
   const [ imageUploadError, setImageUploadError ] = useState(null);
   const [ publishError, setPublishError ] = useState(null);
   const [ publishSuccess, setPublishSuccess ] = useState(null);
+  const [ imageUploadProgress, setImageUploadProgress ] = useState(null);
 
   const handleImagUpload = async (e) => {
     if (!currentUser) {
@@ -23,8 +26,29 @@ export default function Album() {
         return;
       }
       setImageUploadError(null);
-      setFormData({ ...formData, userId: currentUser._id, file})
+      const storage = getStorage(app);
+      const fileName = new Date().getTime() + '-' + file.name;
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress = 
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setImageUploadProgress(progress.toFixed(0));
+        }, (error) => {
+          setImageUploadError('Image upload failed... please try again');
+          setImageUploadProgress(null);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setFormData({...formData, image: downloadURL });
+          });
+        }
+      );
     } catch (error) {
+      setImageUploadError('Image upload failed... please try again');
+      setImageUploadProgress(null);
       console.log(error.message);
     }
   };
@@ -51,8 +75,10 @@ export default function Album() {
         setPublishError(data.message);
       } else {
         setPublishError(null);
-        setPublishSuccess('Huraay! Album publish!')
-        navigate(`/album/${data.slug}`);
+        setPublishSuccess('Huraay! Album publish!');
+        setFormData(null);
+        setFile(null);
+        navigate(`/photo`);
       }
       console.log(formData);
     } catch (error) {
@@ -80,7 +106,7 @@ export default function Album() {
           type='file'
           accept='image/*'
           name='image'
-          onChange={(e) => setFile(URL.createObjectURL(e.target.files[0]))} />
+          onChange={(e) => setFile(e.target.files[0])} />
           <Button type='button' gradientDuoTone='purpleToBlue'
           size='sm' outline onClick={handleImagUpload}>Upload</Button>
         </div>
@@ -89,9 +115,9 @@ export default function Album() {
             {imageUploadError}
           </Alert>
         )}
-        {formData.file && (
+        {formData.image && (
           <img 
-          src={formData.file}
+          src={formData.image}
           alt='upload'
           className="w-full h-72 object cover" />
         )}
