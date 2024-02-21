@@ -3,7 +3,7 @@ import { errorHandler } from '../utilis/error.js';
 
 
 export const createAlbum = async (req, res, next) => {
-    if (!req.body.title || !req.body.file) {
+    if (!req.body.title) {
         return next(errorHandler(400, 'An error occurred... Please fill all required fields'));
     }
     try {
@@ -11,7 +11,7 @@ export const createAlbum = async (req, res, next) => {
         const newAlbum = new Album({
             userId: req.user.id,
             title: req.body.title,
-            image: req.body.file,
+            image: req.body.image,
             slug,
         });
         const savedAlbum = await newAlbum.save();
