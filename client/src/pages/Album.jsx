@@ -80,7 +80,6 @@ export default function Album() {
         setFile(null);
         navigate(`/photo`);
       }
-      console.log(formData);
     } catch (error) {
       console.log(error);
       setPublishError('Oops! Something went wrong');
