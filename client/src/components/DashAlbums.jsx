@@ -76,11 +76,11 @@ export default function DashAlbums() {
                       { new Date(album.updatedAt).toLocaleDateString() }
                     </Table.Cell>    
                     <Table.Cell>
-                      <Link className='font-medium text-gray-900 dark:text-white' to={`/album/${album.slug}`}>{album.title}</Link>
+                      <Link className='font-medium text-gray-900 dark:text-white' to={`/photo`}>{album.title}</Link>
                     </Table.Cell>
                     <Table.Cell>
                       {album.image && (
-                        <Link to={`/album/${album.slug}`}>
+                        <Link to={`/photo`}>
                         <img 
                           src={album.image}
                           alt={album.title} 
