@@ -4,7 +4,7 @@ export default function AlbumCards({ album }) {
     return(
         <div className='flex flex-wrap gap-4 justify-center p-2'>
             <Card
-            className='max-w-sm'
+            className='max-w-sm h-[500px]'
             imgAlt={album.title}
             imgSrc={album.image} 
             >
